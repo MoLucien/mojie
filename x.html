@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>照片分享 | 墨杰的相册</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ========== 头部区域 ========== */
+        .header {
+            text-align: center;
+            padding: 60px 0 40px;
+            position: relative;
+        }
+        
+        .site-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #4cc9f0, #4361ee);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .site-subtitle {
+            font-size: 1.3rem;
+            color: #b8c1ec;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+        
+        /* ========== 照片展示区域 ========== */
+        .photo-gallery {
+            padding: 30px 0 60px;
+        }
+        
+        .gallery-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #fff;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .gallery-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, #4cc9f0, #4361ee);
+            border-radius: 3px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .photo-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s, box-shadow 0.4s;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 300px;
+            position: relative;
+        }
+        
+        .photo-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .photo-img {
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s;
+        }
+        
+        .photo-item:hover .photo-img {
+            transform: scale(1.05);
+        }
+        
+        .photo-info {
+            padding: 20px;
+            height: 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .photo-title {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        
+        .photo-date {
+            color: #b8c1ec;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* 默认占位图片样式 */
+        .placeholder-img {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #3a0ca3 0%, #4361ee 100%);
+            color: white;
+            font-size: 4rem;
+        }
+        
+        .placeholder-img i {
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+        
+        .placeholder-text {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* ========== 联系方式区域 ========== */
+        /* 重点：这里添加哔哩哔哩和Steam联系方式 */
+        .contact-section {
+            padding: 60px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+        
+        .contact-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #fff;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .contact-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+        }
+        
+        /* 哔哩哔哩样式 */
+        .bilibili .contact-icon {
+            background: linear-gradient(135deg, #fb7299, #ff5777);
+            color: white;
+        }
+        
+        /* Steam样式 */
+        .steam .contact-icon {
+            background: linear-gradient(135deg, #1b2838, #2a475e);
+            color: white;
+        }
+        
+        /* 其他联系样式 */
+        .github .contact-icon {
+            background: linear-gradient(135deg, #333, #6e5494);
+            color: white;
+        }
+        
+        .email .contact-icon {
+            background: linear-gradient(135deg, #ea4335, #fbbc05);
+            color: white;
+        }
+        
+        .contact-name {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .contact-id {
+            color: #b8c1ec;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            word-break: break-all;
+        }
+        
+        .contact-btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .contact-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        /* ========== 页脚 ========== */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #b8c1ec;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 25px 0;
+        }
+        
+        .footer-link {
+            color: #b8c1ec;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: #4cc9f0;
+        }
+        
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .site-title {
+                font-size: 2.5rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+            
+            .photo-item {
+                height: 280px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .site-title {
+                font-size: 2rem;
+            }
+            
+            .site-subtitle {
+                font-size: 1.1rem;
+                padding: 0 15px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 上传按钮样式 */
+        .upload-section {
+            text-align: center;
+            padding: 30px 0;
+        }
+        
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(to right, #4361ee, #3a0ca3);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        .upload-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(67, 97, 238, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ========== 头部区域 ========== -->
+        <header class="header">
+            <h1 class="site-title">墨杰的相册</h1>
+            <p class="site-subtitle">分享生活瞬间，记录美好时刻 | 摄影 · 旅行 · 日常</p>
+        </header>
+        
+        <!-- ========== 照片展示区域 ========== -->
+        <section class="photo-gallery">
+            <h2 class="gallery-title">最近的照片</h2>
+            
+            <div class="gallery-grid">
+                <!-- 照片1 -->
+                <div class="photo-item">
+                    <div class="placeholder-img">
+                        <i class="fas fa-mountain"></i>
+                        <span class="placeholder-text">风景照片</span>
+                    </div>
+                    <div class="photo-info">
+                        <h3 class="photo-title">山间日出</h3>
+                        <div class="photo-date">
+                            <i class="far fa-calendar"></i> 2023年10月15日
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 照片2 -->
+                <div class="photo-item">
+                    <div class="placeholder-img" style="background: linear-gradient(135deg, #f72585 0%, #b5179e 100%);">
+                        <i class="fas fa-city"></i>
+                        <span class="placeholder-text">城市夜景</span>
+                    </div>
+                    <div class="photo-info">
+                        <h3 class="photo-title">都市夜晚</h3>
+                        <div class="photo-date">
+                            <i class="far fa-calendar"></i> 2023年10月10日
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 照片3 -->
+                <div class="photo-item">
+                    <div class="placeholder-img" style="background: linear-gradient(135deg, #4cc9f0 0%, #4895ef 100%);">
+                        <i class="fas fa-umbrella-beach"></i>
+                        <span class="placeholder-text">海滩时光</span>
+                    </div>
+                    <div class="photo-info">
+                        <h3 class="photo-title">海边日落</h3>
+                        <div class="photo-date">
+                            <i class="far fa-calendar"></i> 2023年10月5日
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 照片4 -->
+                <div class="photo-item">
+                    <div class="placeholder-img" style="background: linear-gradient(135deg, #7209b7 0%, #560bad 100%);">
+                        <i class="fas fa-robot"></i>
+                        <span class="placeholder-text">科技展</span>
+                    </div>
+                    <div class="photo-info">
+                        <h3 class="photo-title">科技展览</h3>
+                        <div class="photo-date">
+                            <i class="far fa-calendar"></i> 2023年9月28日
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 照片5 -->
+                <div class="photo-item">
+                    <div class="placeholder-img" style="background: linear-gradient(135deg, #f48c06 0%, #e85d04 100%);">
+                        <i class="fas fa-utensils"></i>
+                        <span class="placeholder-text">美食记录</span>
+                    </div>
+                    <div class="photo-info">
+                        <h3 class="photo-title">特色美食</h3>
+                        <div class="photo-date">
+                            <i class="far fa-calendar"></i> 2023年9月20日
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 照片6 -->
+                <div class="photo-item">
+                    <div class="placeholder-img" style="background: linear-gradient(135deg, #2a9d8f 0%, #264653 100%);">
+                        <i class="fas fa-hiking"></i>
+                        <span class="placeholder-text">户外徒步</span>
+                    </div>
+                    <div class="photo-info">
+                        <h3 class="photo-title">森林徒步</h3>
+                        <div class="photo-date">
+                            <i class="far fa-calendar"></i> 2023年9月15日
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="upload-section">
+                <a href="#" class="upload-btn" id="uploadTrigger">
+                    <i class="fas fa-cloud-upload-alt"></i> 上传更多照片
+                </a>
+            </div>
+        </section>
+        
+        <!-- ========== 联系方式区域 ========== -->
+        <!-- 重点：这里添加了哔哩哔哩和Steam联系方式 -->
+        <section class="contact-section">
+            <h2 class="contact-title">联系我</h2>
+            
+            <div class="contact-grid">
+                <!-- 哔哩哔哩 -->
+                <div class="contact-card bilibili">
+                    <div class="contact-icon">
+                        <i class="fab fa-bilibili"></i>
+                    </div>
+                    <h3 class="contact-name">哔哩哔哩</h3>
+                    <p class="contact-id">UID: 12345678</p>
+                    <a href="https://space.bilibili.com/12345678" target="_blank" class="contact-btn">
+                        访问主页
+                    </a>
+                </div>
+                
+                <!-- Steam -->
+                <div class="contact-card steam">
+                    <div class="contact-icon">
+                        <i class="fab fa-steam"></i>
+                    </div>
+                    <h3 class="contact-name">Steam</h3>
+                    <p class="contact-id">ID: mojie_gamer</p>
+                    <a href="https://steamcommunity.com/id/mojie" target="_blank" class="contact-btn">
+                        查看个人资料
+                    </a>
+                </div>
+                
+                <!-- GitHub -->
+                <div class="contact-card github">
+                    <div class="contact-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3 class="contact-name">GitHub</h3>
+                    <p class="contact-id">@molucien</p>
+                    <a href="https://github.com/molucien" target="_blank" class="contact-btn">
+                        查看项目
+                    </a>
+                </div>
+                
+                <!-- 电子邮件 -->
+                <div class="contact-card email">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="contact-name">电子邮件</h3>
+                    <p class="contact-id">mojie@example.com</p>
+                    <a href="mailto:mojie@example.com" class="contact-btn">
+                        发送邮件
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ========== 页脚 ========== -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="#" class="footer-link">首页</a>
+                <a href="#" class="footer-link">照片</a>
+                <a href="#contact" class="footer-link">联系</a>
+                <a href="#" class="footer-link">关于</a>
+            </div>
+            <p class="copyright">
+                © 2023 墨杰的相册 | 本页面托管于 GitHub Pages
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // 照片上传模拟功能
+        document.getElementById('uploadTrigger').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // 模拟文件选择
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.multiple = true;
+            
+            input.onchange = function() {
+                if (this.files.length > 0) {
+                    alert(`已选择 ${this.files.length} 张照片\n\n(在实际应用中，这里会上传到服务器)`);
+                    
+                    // 在实际应用中，这里会有上传逻辑
+                    // 例如：上传到GitHub仓库或图床
+                }
+            };
+            
+            input.click();
+        });
+        
+        // 照片点击放大查看
+        document.querySelectorAll('.photo-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const title = this.querySelector('.photo-title').textContent;
+                const date = this.querySelector('.photo-date').textContent;
+                
+                // 创建模态框查看大图
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.9);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                    padding: 20px;
+                `;
+                
+                // 获取占位图片的背景色
+                const placeholder = this.querySelector('.placeholder-img');
+                const bgColor = window.getComputedStyle(placeholder).background;
+                
+                modal.innerHTML = `
+                    <div style="max-width: 90%; max-height: 70%; margin-bottom: 20px; border-radius: 10px; overflow: hidden; background: ${bgColor}">
+                        <div style="width: 600px; height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white;">
+                            <i class="${placeholder.querySelector('i').className}" style="font-size: 6rem; margin-bottom: 20px;"></i>
+                            <div style="font-size: 1.8rem;">${placeholder.querySelector('.placeholder-text').textContent}</div>
+                        </div>
+                    </div>
+                    <div style="color: white; text-align: center; max-width: 600px;">
+                        <h2 style="margin-bottom: 10px; font-size: 1.8rem;">${title}</h2>
+                        <p style="color: #b8c1ec; margin-bottom: 20px;">${date}</p>
+                        <p style="color: #b8c1ec; margin-bottom: 30px;">这是照片的详细描述。在实际应用中，这里会显示真实的照片和描述信息。</p>
+                    </div>
+                    <button id="closeModal" style="
+                        position: absolute;
+                        top: 30px;
+                        right: 30px;
+                        background: rgba(255,255,255,0.1);
+                        border: none;
+                        color: white;
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        font-size: 1.5rem;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    ">×</button>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // 关闭模态框
+                document.getElementById('closeModal').addEventListener('click', function() {
+                    document.body.removeChild(modal);
+                });
+                
+                // 点击背景关闭
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        document.body.removeChild(modal);
+                    }
+                });
+            });
+        });
+        
+        // 联系卡片点击效果
+        document.querySelectorAll('.contact-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (!e.target.classList.contains('contact-btn')) {
+                    const name = this.querySelector('.contact-name').textContent;
+                    const id = this.querySelector('.contact-id').textContent;
+                    
+                    // 模拟复制ID到剪贴板
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(id.replace('ID: ', '').replace('UID: ', '').replace('@', ''));
+                        
+                        // 添加复制成功反馈
+                        const originalBg = this.style.background;
+                        this.style.background = 'rgba(76, 201, 240, 0.2)';
+                        
+                        setTimeout(() => {
+                            this.style.background = originalBg;
+                        }, 800);
+                    }
+                }
+            });
+        });
+        
+        // 页面加载动画
+        document.addEventListener('DOMContentLoaded', function() {
+            // 添加淡入效果
+            const elements = document.querySelectorAll('.header, .photo-item, .contact-card');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.5s, transform 0.5s';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
