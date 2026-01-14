@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoLucien | 联系我喵~</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --bilibili-gradient: linear-gradient(135deg, #FB7299 0%, #FF5777 100%);
+            --steam-gradient: linear-gradient(135deg, #1B2838 0%, #2A475E 100%);
+            --discord-gradient: linear-gradient(135deg, #7289DA 0%, #5865F2 100%);
+            --twitter-gradient: linear-gradient(135deg, #1DA1F2 0%, #1A91DA 100%);
+            --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-primary: #FFFFFF;
+            --text-secondary: #B8C1EC;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 40px 20px;
+            z-index: 1;
+        }
+        
+        /* ========== 语言切换 ========== */
+        .language-switcher {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            padding: 8px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .lang-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .lang-btn.active {
+            color: white;
+            background: var(--primary-gradient);
+        }
+        
+        /* ========== 头部区域 ========== */
+        .header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+        }
+        
+        .site-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 10px 30px var(--shadow-color);
+            letter-spacing: 1px;
+        }
+        
+        /* ========== 联系方式布局 ========== */
+        /* 三上一下的特殊布局 */
+        .contact-layout {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            min-height: 700px;
+        }
+        
+        .top-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .bottom-center {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        /* ========== 卡片样式 ========== */
+        .contact-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 45px 35px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px var(--shadow-color);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 420px;
+            width: 100%;
+        }
+        
+        /* 顶部三个卡片等宽 */
+        .top-row .contact-card {
+            flex: 1;
+            max-width: calc(33.333% - 27px);
+        }
+        
+        /* 底部卡片宽度稍大 */
+        .bottom-center .contact-card {
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: inherit;
+            background-size: 200% 200%;
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 2;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-20px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+        
+        .contact-card:hover::before {
+            opacity: 1;
+            animation: shimmer 2s infinite linear;
+        }
+        
+        /* 平台特定卡片样式 */
+        .bilibili {
+            background: rgba(251, 114, 153, 0.1);
+            border: 1px solid rgba(251, 114, 153, 0.2);
+        }
+        
+        .bilibili::before {
+            background: var(--bilibili-gradient);
+        }
+        
+        .steam {
+            background: rgba(27, 40, 56, 0.1);
+            border: 1px solid rgba(27, 40, 56, 0.2);
+        }
+        
+        .steam::before {
+            background: var(--steam-gradient);
+        }
+        
+        .discord {
+            background: rgba(114, 137, 218, 0.1);
+            border: 1px solid rgba(114, 137, 218, 0.2);
+        }
+        
+        .discord::before {
+            background: var(--discord-gradient);
+        }
+        
+        .twitter {
+            background: rgba(29, 161, 242, 0.1);
+            border: 1px solid rgba(29, 161, 242, 0.2);
+        }
+        
+        .twitter::before {
+            background: var(--twitter-gradient);
+        }
+        
+        /* 图标容器 */
+        .icon-container {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            font-size: 3rem;
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .contact-card:hover .icon-container {
+            transform: scale(1.15) rotate(10deg);
+        }
+        
+        /* 图标特定样式 */
+        .bilibili .icon-container {
+            background: var(--bilibili-gradient);
+            color: white;
+        }
+        
+        .steam .icon-container {
+            background: var(--steam-gradient);
+            color: white;
+        }
+        
+        .discord .icon-container {
+            background: var(--discord-gradient);
+            color: white;
+        }
+        
+        .twitter .icon-container {
+            background: var(--twitter-gradient);
+            color: white;
+        }
+        
+        /* 图标发光效果 */
+        .icon-container::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            background: inherit;
+            filter: blur(15px);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.5s;
+        }
+        
+        .contact-card:hover .icon-container::after {
+            opacity: 0.6;
+        }
+        
+        /* 文字内容 */
+        .contact-name {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        .contact-id {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 70px;
+        }
+        
+        .contact-id span {
+            display: block;
+            margin: 5px 0;
+        }
+        
+        /* 按钮样式 */
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 15px 35px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            width: 100%;
+            max-width: 220px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            cursor: pointer;
+        }
+        
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+            z-index: -1;
+        }
+        
+        .contact-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .contact-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* ========== 页脚 ========== */
+        .footer {
+            text-align: center;
+            padding: 50px 0 30px;
+            color: var(--text-secondary);
+            margin-top: 80px;
+            width: 100%;
+            max-width: 800px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 2px;
+            background: var(--primary-gradient);
+            border-radius: 1px;
+        }
+        
+        .footer-text {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+        
+        .footer-link {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: #f093fb;
+            text-decoration: underline;
+        }
+        
+        /* ========== 动画 ========== */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        /* 卡片动画延迟 */
+        .contact-card {
+            animation: fadeInUp 0.8s ease backwards;
+        }
+        
+        .top-row .contact-card:nth-child(1) { animation-delay: 0.1s; }
+        .top-row .contact-card:nth-child(2) { animation-delay: 0.2s; }
+        .top-row .contact-card:nth-child(3) { animation-delay: 0.3s; }
+        .bottom-center .contact-card { animation-delay: 0.4s; }
+        
+        /* 头部动画 */
+        .header {
+            animation: fadeInDown 1s ease;
+        }
+        
+        /* ========== 背景装饰 ========== */
+        .bg-decoration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.05;
+            filter: blur(40px);
+        }
+        
+        .shape-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--bilibili-gradient);
+            top: -200px;
+            right: -200px;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--steam-gradient);
+            bottom: -150px;
+            left: -150px;
+            animation: float 25s infinite ease-in-out reverse;
+        }
+        
+        .shape-3 {
+            width: 300px;
+            height: 300px;
+            background: var(--discord-gradient);
+            top: 50%;
+            left: 10%;
+            animation: float 30s infinite ease-in-out;
+        }
+        
+        /* ========== 响应式设计 ========== */
+        @media (max-width: 1100px) {
+            .top-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            
+            .top-row .contact-card {
+                max-width: 500px;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .site-title {
+                font-size: 3rem;
+            }
+            
+            .language-switcher {
+                top: 20px;
+                right: 20px;
+            }
+            
+            .contact-card {
+                padding: 35px 25px;
+                min-height: 380px;
+            }
+            
+            .icon-container {
+                width: 90px;
+                height: 90px;
+                font-size: 2.5rem;
+                margin-bottom: 25px;
+            }
+            
+            .contact-name {
+                font-size: 1.8rem;
+            }
+            
+            .contact-id {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .site-title {
+                font-size: 2.5rem;
+            }
+            
+            .language-switcher {
+                padding: 6px 12px;
+                top: 15px;
+                right: 15px;
+            }
+            
+            .lang-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .contact-card {
+                padding: 30px 20px;
+                min-height: 350px;
+            }
+            
+            .icon-container {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+            
+            .contact-name {
+                font-size: 1.6rem;
+            }
+            
+            .contact-btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景装饰元素 -->
+    <div class="bg-decoration">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+    </div>
+    
+    <!-- 语言切换器 -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="zh-CN">简体</button>
+        <button class="lang-btn" data-lang="zh-TW">繁體</button>
+        <button class="lang-btn" data-lang="en">English</button>
+    </div>
+    
+    <div class="container">
+        <!-- ========== 头部区域 ========== -->
+        <header class="header">
+            <h1 class="site-title" data-key="title">MoLucien</h1>
+            <!-- 删除了副标题 -->
+        </header>
+        
+        <!-- ========== 联系方式布局 ========== -->
+        <div class="contact-layout">
+            <!-- 顶部三卡片 -->
+            <div class="top-row">
+                <!-- 哔哩哔哩 -->
+                <div class="contact-card bilibili">
+                    <div class="icon-container">
+                        <i class="fab fa-bilibili"></i>
+                    </div>
+                    <h3 class="contact-name" data-key="bilibili-name">哔哩哔哩</h3>
+                    <div class="contact-id">
+                        <span><strong data-key="bilibili-uid-label">UID:</strong> 2123896414</span>
+                        <span><strong data-key="bilibili-user-label">用户名:</strong> MoLucien</span>
+                        <span data-key="bilibili-desc">视奸喵~</span> <!-- 修改为视奸喵~ -->
+                    </div>
+                    <a href="https://space.bilibili.com/2123896414?spm_id_from=333.1007.0.0" target="_blank" class="contact-btn">
+                        <i class="fas fa-external-link-alt"></i> <span data-key="visit-profile">访问主页</span>
+                    </a>
+                </div>
+                
+                <!-- Steam -->
+                <div class="contact-card steam">
+                    <div class="icon-container">
+                        <i class="fab fa-steam"></i>
+                    </div>
+                    <h3 class="contact-name" data-key="steam-name">Steam</h3>
+                    <div class="contact-id">
+                        <span><strong data-key="steam-id-label">ID:</strong> MoLucien</span>
+                        <span><strong data-key="steam-code-label">好友代码:</strong> 1212640961</span>
+                        <span data-key="steam-desc">一起打游戏喵~</span> <!-- 修改为一起打游戏喵~ -->
+                    </div>
+                    <a href="https://steamcommunity.com/profiles/76561199172906689" target="_blank" class="contact-btn">
+                        <i class="fas fa-external-link-alt"></i> <span data-key="view-profile">查看资料</span>
+                    </a>
+                </div>
+                
+                <!-- Discord -->
+                <div class="contact-card discord">
+                    <div class="icon-container">
+                        <i class="fab fa-discord"></i>
+                    </div>
+                    <h3 class="contact-name" data-key="discord-name">Discord</h3>
+                    <div class="contact-id">
+                        <span><strong data-key="discord-user-label">用户名:</strong> Lucien_mojie</span>
+                        <!-- 删除了"实时交流与聊天" -->
+                        <span data-key="discord-desc2">点击按钮复制用户名</span>
+                    </div>
+                    <button class="contact-btn" id="discordCopy">
+                        <i class="fas fa-copy"></i> <span data-key="copy-username">复制用户名</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 底部居中卡片 -->
+            <div class="bottom-center">
+                <!-- Twitter/X -->
+                <div class="contact-card twitter">
+                    <div class="icon-container">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <h3 class="contact-name" data-key="twitter-name">Twitter / X</h3>
+                    <div class="contact-id">
+                        <span><strong>@MoLucien</strong></span>
+                        <span data-key="twitter-desc1">日常分享与动态</span>
+                        <span data-key="twitter-desc2">女装的话这里有 👗</span>
+                    </div>
+                    <a href="https://x.com/MoLucien" target="_blank" class="contact-btn">
+                        <i class="fas fa-external-link-alt"></i> <span data-key="follow-me">关注我</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== 页脚 ========== -->
+        <footer class="footer">
+            <p class="footer-text" data-key="footer-text1">© 205 MoLucien | <a href="https://pages.github.com/" target="_blank" class="footer-link" data-key="github-pages">GitHub Pages</a></p>
+            <p class="footer-text" data-key="footer-text2">最后更新: 2025年12月 | 设计: MoLucien</p>
+        </footer>
+    </div>
+    
+    <script>
+        // 多语言内容
+        const translations = {
+            'zh-CN': {
+                'title': 'MoLucien',
+                // 删除了subtitle
+                'bilibili-name': '哔哩哔哩',
+                'bilibili-uid-label': 'UID:',
+                'bilibili-user-label': '用户名:',
+                'bilibili-desc': '视奸喵~', // 修改为视奸喵~
+                'steam-name': 'Steam',
+                'steam-id-label': 'ID:',
+                'steam-code-label': '好友代码:',
+                'steam-desc': '一起打游戏喵~', // 修改为一起打游戏喵~
+                'discord-name': 'Discord',
+                'discord-user-label': '用户名:',
+                // 删除了discord-desc1
+                'discord-desc2': '点击按钮复制用户名',
+                'twitter-name': 'Twitter / X',
+                'twitter-desc1': '日常分享与动态',
+                'twitter-desc2': '女装的话这里有 👗',
+                'visit-profile': '访问主页',
+                'view-profile': '查看资料',
+                'copy-username': '复制用户名',
+                'follow-me': '关注我',
+                'footer-text1': '© 2023 MoLucien |',
+                'github-pages': 'GitHub Pages',
+                'footer-text2': '最后更新: 2023年10月 | 设计: MoLucien'
+            },
+            'zh-TW': {
+                'title': 'MoLucien',
+                // 删除了subtitle
+                'bilibili-name': '嗶哩嗶哩',
+                'bilibili-uid-label': 'UID:',
+                'bilibili-user-label': '用戶名:',
+                'bilibili-desc': '視姦喵~', // 繁体翻译
+                'steam-name': 'Steam',
+                'steam-id-label': 'ID:',
+                'steam-code-label': '好友代碼:',
+                'steam-desc': '一起打遊戲喵~', // 繁体翻译
+                'discord-name': 'Discord',
+                'discord-user-label': '用戶名:',
+                // 删除了discord-desc1
+                'discord-desc2': '點擊按鈕複製用戶名',
+                'twitter-name': 'Twitter / X',
+                'twitter-desc1': '日常分享與動態',
+                'twitter-desc2': '女裝的話這裡有 👗',
+                'visit-profile': '訪問主頁',
+                'view-profile': '查看資料',
+                'copy-username': '複製用戶名',
+                'follow-me': '關注我',
+                'footer-text1': '© 2023 MoLucien |',
+                'github-pages': 'GitHub Pages',
+                'footer-text2': '最後更新: 2023年10月 | 設計: MoLucien'
+            },
+            'en': {
+                'title': 'MoLucien',
+                // 删除了subtitle
+                'bilibili-name': 'Bilibili',
+                'bilibili-uid-label': 'UID:',
+                'bilibili-user-label': 'Username:',
+                'bilibili-desc': 'Stalking meow~', // 英文翻译
+                'steam-name': 'Steam',
+                'steam-id-label': 'ID:',
+                'steam-code-label': 'Friend Code:',
+                'steam-desc': 'Let\'s play games meow~', // 英文翻译
+                'discord-name': 'Discord',
+                'discord-user-label': 'Username:',
+                // 删除了discord-desc1
+                'discord-desc2': 'Click to copy username',
+                'twitter-name': 'Twitter / X',
+                'twitter-desc1': 'Daily Updates & Thoughts',
+                'twitter-desc2': 'Cosplay content here 👗',
+                'visit-profile': 'Visit Profile',
+                'view-profile': 'View Profile',
+                'copy-username': 'Copy Username',
+                'follow-me': 'Follow Me',
+                'footer-text1': '© 2023 MoLucien |',
+                'github-pages': 'GitHub Pages',
+                'footer-text2': 'Last Updated: October 2023 | Design: MoLucien'
+            }
+        };
+        
+        // 当前语言
+        let currentLang = 'zh-CN';
+        
+        // 语言切换功能
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const lang = this.getAttribute('data-lang');
+                
+                // 更新按钮状态
+                document.querySelectorAll('.lang-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // 切换语言
+                switchLanguage(lang);
+            });
+        });
+        
+        // 切换语言函数
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            // 更新所有带 data-key 属性的元素
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // 更新 Discord 复制按钮文本
+            const discordCopyBtn = document.getElementById('discordCopy');
+            if (discordCopyBtn && translations[lang]['copy-username']) {
+                discordCopyBtn.querySelector('span').textContent = translations[lang]['copy-username'];
+            }
+            
+            // 保存语言偏好到 localStorage
+            localStorage.setItem('preferredLanguage', lang);
+        }
+        
+        // 初始化语言
+        function initLanguage() {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang && translations[savedLang]) {
+                switchLanguage(savedLang);
+                // 更新按钮状态
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.getAttribute('data-lang') === savedLang) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+        }
+        
+        // 复制功能
+        document.getElementById('discordCopy').addEventListener('click', function(e) {
+            e.preventDefault();
+            const discordId = "Lucien_mojie";
+            
+            // 复制到剪贴板
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(discordId).then(() => {
+                    // 显示成功反馈
+                    const originalText = this.querySelector('span').textContent;
+                    const originalBg = this.style.background;
+                    
+                    this.innerHTML = '<i class="fas fa-check"></i> <span>' + 
+                        (currentLang === 'zh-CN' ? '已复制' : 
+                         currentLang === 'zh-TW' ? '已複製' : 'Copied') + '</span>';
+                    this.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+                    
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-copy"></i> <span>' + 
+                            translations[currentLang]['copy-username'] + '</span>';
+                        this.style.background = originalBg;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('复制失败:', err);
+                    fallbackCopy(discordId);
+                });
+            } else {
+                fallbackCopy(discordId);
+            }
+            
+            function fallbackCopy(text) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    const copiedText = currentLang === 'zh-CN' ? '已复制Discord用户名: ' :
+                                      currentLang === 'zh-TW' ? '已複製Discord用戶名: ' :
+                                      'Copied Discord username: ';
+                    alert(copiedText + text);
+                } catch (err) {
+                    console.error('备用复制方法失败:', err);
+                    alert('复制失败，请手动复制: ' + text);
+                }
+                
+                document.body.removeChild(textArea);
+            }
+        });
+        
+        // 卡片悬停效果增强
+        document.querySelectorAll('.contact-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.zIndex = '1';
+            });
+        });
+        
+        // 页面加载效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化语言
+            initLanguage();
+            
+            // 添加卡片入场动画
+            const cards = document.querySelectorAll('.contact-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px) scale(0.9)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0) scale(1)';
+                }, 100 + (index * 150));
+            });
+            
+            // 添加浮动背景动画
+            const shapes = document.querySelectorAll('.floating-shape');
+            shapes.forEach((shape, index) => {
+                shape.style.transform = 'translateY(0)';
+                shape.style.animationDuration = `${20 + (index * 5)}s`;
+            });
+        });
+        
+        // 鼠标移动视差效果
+        document.addEventListener('mousemove', function(e) {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            const shapes = document.querySelectorAll('.floating-shape');
+            shapes.forEach((shape, index) => {
+                const moveX = (x - 0.5) * 20 * (index + 1);
+                const moveY = (y - 0.5) * 20 * (index + 1);
+                
+                shape.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+        
+        // 粒子背景效果
+        function createParticles() {
+            const particleContainer = document.querySelector('.bg-decoration');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 4 + 1 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = 'rgba(255, 255, 255, 0.2)';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.zIndex = '0';
+                particle.style.pointerEvents = 'none';
+                
+                // 随机动画
+                const duration = Math.random() * 20 + 10;
+                particle.style.animation = `float ${duration}s infinite ease-in-out`;
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                
+                particleContainer.appendChild(particle);
+            }
+        }
+        
+        // 初始化粒子效果
+        createParticles();
+    </script>
+</body>
+</html>
